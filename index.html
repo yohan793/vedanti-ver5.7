@@ -3,57 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vedanti, I know I fucked up big time. Let's just give it a try.</title>
+    <title>Vedanti, I Know I Fucked Up</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); /* Cute & stylish font */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Background Setup */
         body {
-            font-family: 'Pacifico', cursive; /* Cute and sexy font */
+            background: url('https://i.imgur.com/ZFLLorU.jpeg') no-repeat center center fixed;
+            background-size: cover;
             text-align: center;
-            color: red;
-            font-weight: bold; /* All text is bold */
+            font-family: 'Dancing Script', cursive;
+            color: pink;
             overflow: hidden;
         }
 
-        /* Background Slideshow */
-        .slideshow-container {
+        /* Slideshow */
+        .slideshow {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-            z-index: -2;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
         }
 
-        .slideshow-container img, .slideshow-container video {
-            position: absolute;
+        /* Background Video */
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            z-index: -2;
         }
 
-        .slideshow-container img.active, .slideshow-container video.active {
-            opacity: 0.5; /* Slight transparency */
-        }
-
-        /* Animated Text */
+        /* Main Text */
         .animated-text {
             font-size: 2em;
+            font-weight: bold;
             margin-top: 20vh;
-            animation: fadeInOut 2s infinite alternate;
-        }
-
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
         }
 
         /* Buttons */
@@ -66,31 +54,112 @@
             border: none;
         }
 
-        .yes-btn { background-color: pink; }
-        .no-btn { background-color: lightcoral; }
+        .yes-btn {
+            background-color: pink;
+            color: white;
+        }
 
+        .no-btn {
+            background-color: lightcoral;
+            color: white;
+        }
+
+        /* Fireworks (Yes Click) */
+        .message-box {
+            display: none;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: pink;
+        }
+
+        /* Floating No Button */
+        .floating {
+            position: absolute;
+        }
+
+        /* GIF Display */
+        .gif-box {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop>
+        <source src="https://i.imgur.com/1BKEsLK.mp4" type="video/mp4">
+    </video>
+
+    <!-- Slideshow -->
+    <img class="slideshow" id="slideshow" src="https://i.imgur.com/ZFLLorU.jpeg">
+
     <h1 class="animated-text">Vedanti, I know I fucked up big time. Let's just give it a try.</h1>
-    <button class="btn yes-btn" onclick="showFireworks()">Yes</button>
+
+    <button class="btn yes-btn" onclick="showYesMessage()">Yes</button>
     <button class="btn no-btn" onclick="askAgain()">No</button>
+
+    <div class="message-box" id="yesMessage">
+        Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn’t able to like her back. 
+        My heart and mind are always thinking about you. Thank you for clicking yes. <br> <b>If you really meant yes, call me.</b>
+    </div>
+
+    <div class="message-box" id="noMessage">
+        Vedanti, I know you don’t feel like that towards me, and I was not going to do this. I just want to be with you. 
+        I know about your unrealistic standards and all, but let's just find a way. 
+        I am not here just to get in a relationship with you.
+    </div>
+
+    <div class="gif-box" id="gifBox">
+        <img src="https://media.tenor.com/wVEeb1DiL3IAAAAC/cute-love.gif" width="300px">
+    </div>
+
+    <audio id="bgMusic">
+        <source src="your-song.mp3" type="audio/mp3">
+    </audio>
 
     <script>
         let noClickCount = 0;
 
-        function showFireworks() {
-            alert("Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn’t able to like her back. My heart and mind are always thinking about you. Thank you for clicking yes. If you really meant yes, call me.");
+        function showYesMessage() {
+            document.getElementById('yesMessage').style.display = 'block';
+            document.getElementById('bgMusic').play();
         }
 
         function askAgain() {
+            let noButton = document.querySelector('.no-btn');
             if (noClickCount === 0) {
                 alert('Are you sure? If yes, press No again.');
                 noClickCount++;
             } else {
-                alert("Vedanti, I know you don’t feel like that towards me and I was not going to do this. I just want to be with you. I know about your unrealistic standards and all, but let’s just find a way. I am not here just to get in a relationship with you.");
+                document.getElementById('noMessage').style.display = 'block';
+                document.getElementById('gifBox').style.display = 'block';
+                noButton.classList.add('floating');
+                moveButton(noButton);
             }
         }
+
+        function moveButton(button) {
+            button.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            button.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            setTimeout(() => moveButton(button), 1000);
+        }
+
+        // Slideshow Effect
+        let images = [
+            "https://i.imgur.com/ZFLLorU.jpeg",
+            "https://i.imgur.com/1TrG435.jpeg"
+        ];
+        let index = 0;
+
+        function changeImage() {
+            document.getElementById('slideshow').src = images[index];
+            index = (index + 1) % images.length;
+            setTimeout(changeImage, 5000);
+        }
+
+        changeImage();
     </script>
 </body>
 </html>

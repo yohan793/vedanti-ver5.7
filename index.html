@@ -5,46 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vedanti, I Know I Fucked Up</title>
     <style>
-        /* Background Setup */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
         body {
             background: url('https://i.imgur.com/ZFLLorU.jpeg') no-repeat center center fixed;
             background-size: cover;
             text-align: center;
-            font-family: 'Dancing Script', cursive;
-            color: pink;
-            overflow: hidden;
+            font-family: 'Great Vibes', cursive;
+            color: #d63384; /* Darker pink */
         }
 
-        /* Slideshow */
-        .slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+        .container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Background Video */
-        video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Main Text */
-        .animated-text {
-            font-size: 2em;
-            font-weight: bold;
-            margin-top: 20vh;
-        }
-
-        /* Buttons */
         .btn {
             font-size: 1.5em;
             padding: 10px 20px;
@@ -52,79 +36,59 @@
             cursor: pointer;
             border-radius: 10px;
             border: none;
+            color: white;
+            transition: 0.3s ease-in-out;
         }
 
         .yes-btn {
-            background-color: pink;
-            color: white;
+            background-color: #d63384; /* Dark pink */
         }
 
         .no-btn {
-            background-color: lightcoral;
-            color: white;
+            background-color: #ff5c8d; /* Soft pink */
         }
 
-        /* Fireworks (Yes Click) */
-        .message-box {
+        .yes-btn:hover, .no-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .message {
             display: none;
             font-size: 1.5em;
-            font-weight: bold;
             margin-top: 20px;
-            color: pink;
+            color: #d63384; /* Darker pink */
         }
 
-        /* Floating No Button */
-        .floating {
-            position: absolute;
-        }
-
-        /* GIF Display */
-        .gif-box {
+        .gif-container {
             display: none;
             margin-top: 20px;
+        }
+
+        .gif-container img {
+            width: 200px;
         }
     </style>
 </head>
 <body>
-
-    <!-- Background Video -->
-    <video autoplay muted loop>
-        <source src="https://i.imgur.com/1BKEsLK.mp4" type="video/mp4">
-    </video>
-
-    <!-- Slideshow -->
-    <img class="slideshow" id="slideshow" src="https://i.imgur.com/ZFLLorU.jpeg">
-
-    <h1 class="animated-text">Vedanti, I know I fucked up big time. Let's just give it a try.</h1>
-
-    <button class="btn yes-btn" onclick="showYesMessage()">Yes</button>
-    <button class="btn no-btn" onclick="askAgain()">No</button>
-
-    <div class="message-box" id="yesMessage">
-        Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn’t able to like her back. 
-        My heart and mind are always thinking about you. Thank you for clicking yes. <br> <b>If you really meant yes, call me.</b>
+    <div class="container">
+        <h1>Vedanti, I know I fucked up big time. Let's just give it a try.</h1>
+        <button class="btn yes-btn" onclick="showYesMessage()">Yes</button>
+        <button class="btn no-btn" onclick="askAgain()">No</button>
+        <p id="message" class="message"></p>
+        <div class="gif-container" id="gifContainer">
+            <img src="https://i.imgur.com/1TrG435.jpeg" alt="Cute GIF">
+        </div>
     </div>
 
-    <div class="message-box" id="noMessage">
-        Vedanti, I know you don’t feel like that towards me, and I was not going to do this. I just want to be with you. 
-        I know about your unrealistic standards and all, but let's just find a way. 
-        I am not here just to get in a relationship with you.
-    </div>
-
-    <div class="gif-box" id="gifBox">
-        <img src="https://media.tenor.com/wVEeb1DiL3IAAAAC/cute-love.gif" width="300px">
-    </div>
-
-    <audio id="bgMusic">
-        <source src="your-song.mp3" type="audio/mp3">
-    </audio>
+    <audio id="backgroundMusic" src="your-song.mp3"></audio>
 
     <script>
         let noClickCount = 0;
 
         function showYesMessage() {
-            document.getElementById('yesMessage').style.display = 'block';
-            document.getElementById('bgMusic').play();
+            document.getElementById('message').innerText = "Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn't able to like her back. My heart and mind are always thinking about you. Thank you for clicking yes. If you really meant yes, call me.";
+            document.getElementById('message').style.display = "block";
+            document.getElementById('backgroundMusic').play();
         }
 
         function askAgain() {
@@ -133,33 +97,15 @@
                 alert('Are you sure? If yes, press No again.');
                 noClickCount++;
             } else {
-                document.getElementById('noMessage').style.display = 'block';
-                document.getElementById('gifBox').style.display = 'block';
-                noButton.classList.add('floating');
-                moveButton(noButton);
+                document.getElementById('message').innerText = "Vedanti, I know you don’t feel like that towards me, and I was not going to do this. I just want to be with you. I know about your unrealistic standards and all, but let’s just find a way. I am not here just to get in a relationship with you.";
+                document.getElementById('message').style.display = "block";
+                document.getElementById('gifContainer').style.display = "block";
+
+                noButton.style.position = 'absolute';
+                noButton.style.left = Math.random() * window.innerWidth + 'px';
+                noButton.style.top = Math.random() * window.innerHeight + 'px';
             }
         }
-
-        function moveButton(button) {
-            button.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            button.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-            setTimeout(() => moveButton(button), 1000);
-        }
-
-        // Slideshow Effect
-        let images = [
-            "https://i.imgur.com/ZFLLorU.jpeg",
-            "https://i.imgur.com/1TrG435.jpeg"
-        ];
-        let index = 0;
-
-        function changeImage() {
-            document.getElementById('slideshow').src = images[index];
-            index = (index + 1) % images.length;
-            setTimeout(changeImage, 5000);
-        }
-
-        changeImage();
     </script>
 </body>
 </html>

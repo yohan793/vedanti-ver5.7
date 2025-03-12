@@ -3,29 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vedanti, I know I messed up...</title>
+    <title>Vedanti, I Know I Fucked Up</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-
+        /* Background Setup */
         body {
-            background: url('https://i.imgur.com/ZFLLorU.jpeg') no-repeat center center/cover;
+            background: url('https://i.imgur.com/ZFLLorU.jpeg') no-repeat center center fixed;
+            background-size: cover;
             text-align: center;
             font-family: 'Dancing Script', cursive;
-            color: white;
-            transition: background 1s ease-in-out;
+            color: pink;
+            overflow: hidden;
         }
 
+        /* Slideshow */
+        .slideshow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Background Video */
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Main Text */
         .animated-text {
-            font-size: 2.5em;
-            color: red;
-            animation: fadeInOut 2s infinite alternate;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 20vh;
         }
 
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
+        /* Buttons */
         .btn {
             font-size: 1.5em;
             padding: 10px 20px;
@@ -35,88 +54,77 @@
             border: none;
         }
 
-        .yes-btn { background-color: lightgreen; }
-        .no-btn { background-color: lightcoral; }
-        .hidden { display: none; }
-        
-        /* No Button Floating Effect */
+        .yes-btn {
+            background-color: pink;
+            color: white;
+        }
+
+        .no-btn {
+            background-color: lightcoral;
+            color: white;
+        }
+
+        /* Fireworks (Yes Click) */
+        .message-box {
+            display: none;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: pink;
+        }
+
+        /* Floating No Button */
         .floating {
             position: absolute;
-            animation: floatAround 3s infinite linear;
         }
 
-        @keyframes floatAround {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(50px, -30px); }
-            50% { transform: translate(-50px, 50px); }
-            75% { transform: translate(30px, -50px); }
-            100% { transform: translate(0, 0); }
-        }
-
-        /* Background Slideshow */
-        @keyframes bgSlideshow {
-            0%, 33% { background-image: url('https://i.imgur.com/ZFLLorU.jpeg'); }
-            34%, 66% { background-image: url('https://i.imgur.com/1TrG435.jpeg'); }
-            67%, 100% { background-image: url('https://i.imgur.com/ZFLLorU.jpeg'); }
-        }
-        
-        body {
-            animation: bgSlideshow 15s infinite;
-        }
-
-        /* Video Background */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        /* GIF Display */
+        .gif-box {
+            display: none;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
     <!-- Background Video -->
-    <div class="video-container">
-        <video autoplay loop muted>
-            <source src="https://i.imgur.com/1BKEsLK.mp4" type="video/mp4">
-        </video>
-    </div>
+    <video autoplay muted loop>
+        <source src="https://i.imgur.com/1BKEsLK.mp4" type="video/mp4">
+    </video>
 
-    <h1 class="animated-text">Vedanti, I know I messed up big time... Let's just give it a try.</h1>
-    
-    <button class="btn yes-btn" onclick="showMessage()">Yes</button>
+    <!-- Slideshow -->
+    <img class="slideshow" id="slideshow" src="https://i.imgur.com/ZFLLorU.jpeg">
+
+    <h1 class="animated-text">Vedanti, I know I fucked up big time. Let's just give it a try.</h1>
+
+    <button class="btn yes-btn" onclick="showYesMessage()">Yes</button>
     <button class="btn no-btn" onclick="askAgain()">No</button>
 
-    <!-- Hidden Message for "Yes" -->
-    <div id="yes-message" class="hidden">
-        <h2>Vedanti, I know I was wrong and all, but when Yuvika was with me, I wasn’t able to like her back.  
-        My heart and mind are always thinking about you.  
-        Thank you for clicking yes. If you really meant yes, call me. 💖</h2>
-        <audio autoplay>
-            <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-        </audio>
+    <div class="message-box" id="yesMessage">
+        Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn’t able to like her back. 
+        My heart and mind are always thinking about you. Thank you for clicking yes. <br> <b>If you really meant yes, call me.</b>
     </div>
 
-    <!-- Hidden GIF for "No" -->
-    <div id="no-gif" class="hidden">
-        <img src="https://media.tenor.com/ZF4J8Xw4_jgAAAAC/please-dont-leave-me.gif" width="300px">
-        <p>But I really like you...</p>
+    <div class="message-box" id="noMessage">
+        Vedanti, I know you don’t feel like that towards me, and I was not going to do this. I just want to be with you. 
+        I know about your unrealistic standards and all, but let's just find a way. 
+        I am not here just to get in a relationship with you.
     </div>
+
+    <div class="gif-box" id="gifBox">
+        <img src="https://media.tenor.com/wVEeb1DiL3IAAAAC/cute-love.gif" width="300px">
+    </div>
+
+    <audio id="bgMusic">
+        <source src="your-song.mp3" type="audio/mp3">
+    </audio>
 
     <script>
         let noClickCount = 0;
-        
-        function showMessage() {
-            document.getElementById('yes-message').classList.remove('hidden');
+
+        function showYesMessage() {
+            document.getElementById('yesMessage').style.display = 'block';
+            document.getElementById('bgMusic').play();
         }
 
         function askAgain() {
@@ -125,11 +133,33 @@
                 alert('Are you sure? If yes, press No again.');
                 noClickCount++;
             } else {
+                document.getElementById('noMessage').style.display = 'block';
+                document.getElementById('gifBox').style.display = 'block';
                 noButton.classList.add('floating');
-                document.getElementById('no-gif').classList.remove('hidden');
+                moveButton(noButton);
             }
         }
-    </script>
 
+        function moveButton(button) {
+            button.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            button.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            setTimeout(() => moveButton(button), 1000);
+        }
+
+        // Slideshow Effect
+        let images = [
+            "https://i.imgur.com/ZFLLorU.jpeg",
+            "https://i.imgur.com/1TrG435.jpeg"
+        ];
+        let index = 0;
+
+        function changeImage() {
+            document.getElementById('slideshow').src = images[index];
+            index = (index + 1) % images.length;
+            setTimeout(changeImage, 5000);
+        }
+
+        changeImage();
+    </script>
 </body>
 </html>

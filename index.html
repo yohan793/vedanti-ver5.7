@@ -7,12 +7,40 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: url('https://i.imgur.com/ZFLLorU.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            text-align: center;
             font-family: 'Great Vibes', cursive;
             color: #d63384; /* Darker pink */
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Slideshow Background */
+        .slideshow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .slideshow-container img, .slideshow-container video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .active {
+            opacity: 1;
         }
 
         .container {
@@ -70,6 +98,15 @@
     </style>
 </head>
 <body>
+    <!-- Slideshow Background -->
+    <div class="slideshow-container">
+        <img src="https://i.imgur.com/ZFLLorU.jpeg" class="slide active">
+        <img src="https://i.imgur.com/1TrG435.jpeg" class="slide">
+        <video class="slide" autoplay loop muted>
+            <source src="https://i.imgur.com/1BKEsLK.mp4" type="video/mp4">
+        </video>
+    </div>
+
     <div class="container">
         <h1>Vedanti, I know I fucked up big time. Let's just give it a try.</h1>
         <button class="btn yes-btn" onclick="showYesMessage()">Yes</button>
@@ -84,6 +121,8 @@
 
     <script>
         let noClickCount = 0;
+        let slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
 
         function showYesMessage() {
             document.getElementById('message').innerText = "Vedanti, I know I was wrong and all, but however, when Yuvika was with me, I wasn't able to like her back. My heart and mind are always thinking about you. Thank you for clicking yes. If you really meant yes, call me.";
@@ -106,6 +145,14 @@
                 noButton.style.top = Math.random() * window.innerHeight + 'px';
             }
         }
+
+        function changeSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(changeSlide, 5000); // Change background every 5 seconds
     </script>
 </body>
 </html>
